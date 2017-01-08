@@ -16,6 +16,11 @@ class MissingAuthorization(HawkFail):
     """
 
 
+# class MissingContent(HawkFail):
+#     """
+#     No content was sent to an endpoint that requires a 
+
+
 class InvalidCredentials(HawkFail):
     """
     The specified Hawk credentials are invalid.
