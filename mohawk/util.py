@@ -194,7 +194,18 @@ def parse_authorization_header(auth_header):
 
 
 def strings_match(a, b):
-    # Constant time string comparision, mitigates side channel attacks.
+    """Constant-time string comparison.
+
+    Wraps the stdlib hmac.compare_digest where available (>=2.7.7), and supplies
+    a pure-python implementation as backup.
+    """
+    match_func = getattr(hmac, 'compare_digest', _strings_match)
+    return match_func(a, b)
+
+
+def _strings_match(a, b):
+    # Pure-python constant time string comparision, only used when
+    # hmac.compare_digest is unavailable
     if len(a) != len(b):
         return False
     result = 0
